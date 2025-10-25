@@ -1,0 +1,1430 @@
+{
+  "test_execution": {
+    "start_time": "2025-10-23T22:40:10.406760",
+    "end_time": "2025-10-23T22:45:21.200250",
+    "total_duration": 310.79349,
+    "total_tests": 14,
+    "passed_tests": 9,
+    "failed_tests": 5,
+    "error_tests": 0,
+    "success_rate": 0.6428571428571429
+  },
+  "test_suites": {
+    "Data Structures": {
+      "tests_run": 5,
+      "failures": 0,
+      "errors": 0,
+      "duration": 0.0004630088806152344,
+      "success_rate": 1.0
+    },
+    "CSP Core": {
+      "tests_run": 3,
+      "failures": 2,
+      "errors": 0,
+      "duration": 0.0012450218200683594,
+      "success_rate": 0.3333333333333333
+    },
+    "Data Processor": {
+      "tests_run": 2,
+      "failures": 1,
+      "errors": 0,
+      "duration": 0.034156084060668945,
+      "success_rate": 0.5
+    },
+    "Performance": {
+      "tests_run": 1,
+      "failures": 1,
+      "errors": 0,
+      "duration": 9.89393162727356,
+      "success_rate": 0.0
+    },
+    "Integration": {
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "duration": 0.5328035354614258,
+      "success_rate": 1.0
+    },
+    "Error Handling": {
+      "tests_run": 2,
+      "failures": 1,
+      "errors": 0,
+      "duration": 0.002196073532104492,
+      "success_rate": 0.5
+    },
+    "Performance Benchmark": {
+      "success": false,
+      "duration": 300,
+      "output": "",
+      "error": "Benchmark timed out after 5 minutes"
+    }
+  },
+  "failed_tests": [
+    {
+      "suite": "CSP Core",
+      "test": "test_hard_constraints (test_suite.TestCSPCore.test_hard_constraints)",
+      "status": "FAILED",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table\\test_suite.py\", line 134, in test_hard_constraints\n    self.assertTrue(self.csp._check_hard_constraints(session2, time_slot, room, different_instructor))\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true\n"
+    },
+    {
+      "suite": "CSP Core",
+      "test": "test_soft_constraints (test_suite.TestCSPCore.test_soft_constraints)",
+      "status": "FAILED",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table\\test_suite.py\", line 152, in test_soft_constraints\n    self.assertGreater(len(self.csp.soft_constraint_violations), 0)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 not greater than 0\n"
+    },
+    {
+      "suite": "Data Processor",
+      "test": "test_csv_validation (test_suite.TestDataProcessor.test_csv_validation)",
+      "status": "FAILED",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table\\test_suite.py\", line 187, in test_csv_validation\n    self.assertIn(\"invalid.csv\", results)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'invalid.csv' not found in {'Timeslots.csv': ['File Timeslots.csv not found'], 'Rooms.csv': ['File Rooms.csv not found'], 'Instructors_data.csv': ['File Instructors_data.csv not found'], 'Groups.csv': ['File Groups.csv not found'], 'Sections.csv': ['File Sections.csv not found'], 'Timetable.csv': ['File Timetable.csv not found']}\n"
+    },
+    {
+      "suite": "Performance",
+      "test": "test_csp_performance (test_suite.TestPerformance.test_csp_performance)",
+      "status": "FAILED",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table\\test_suite.py\", line 295, in test_csp_performance\n    self.assertLess(build_time, 5.0, \"CSP model building took too long\")\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 9.893138885498047 not less than 5.0 : CSP model building took too long\n"
+    },
+    {
+      "suite": "Error Handling",
+      "test": "test_malformed_csv_handling (test_suite.TestErrorHandling.test_malformed_csv_handling)",
+      "status": "FAILED",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table\\test_suite.py\", line 444, in test_malformed_csv_handling\n    self.assertIn(\"malformed.csv\", results)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'malformed.csv' not found in {'Timeslots.csv': ['File Timeslots.csv not found'], 'Rooms.csv': ['File Rooms.csv not found'], 'Instructors_data.csv': ['File Instructors_data.csv not found'], 'Groups.csv': ['File Groups.csv not found'], 'Sections.csv': ['File Sections.csv not found'], 'Timetable.csv': ['File Timetable.csv not found']}\n"
+    }
+  ],
+  "performance_metrics": {
+    "time_window_minutes": 60,
+    "total_metrics": 214,
+    "total_operations": 2,
+    "successful_operations": 2,
+    "failed_operations": 0,
+    "average_operation_duration": 0.0140985,
+    "metrics_by_category": {
+      "system": [
+        {
+          "name": "cpu_usage",
+          "value": 10.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:11.439020"
+        },
+        {
+          "name": "memory_usage",
+          "value": 37.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:11.439424"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 20344.16796875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:11.439432"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:11.444816"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 9.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:18.320851"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:18.321066"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19195.8984375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:18.321072"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:18.321173"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:24.322136"
+        },
+        {
+          "name": "memory_usage",
+          "value": 37.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:24.322455"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 20235.6640625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:24.322460"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:24.322555"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 9.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:30.324232"
+        },
+        {
+          "name": "memory_usage",
+          "value": 38.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:30.324853"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 20119.4296875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:30.324863"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:30.324988"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 13.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:36.326607"
+        },
+        {
+          "name": "memory_usage",
+          "value": 39.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:36.326830"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19685.9140625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:36.326835"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:36.326927"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:42.327674"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:42.327909"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19428.609375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:42.327913"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:42.327989"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:48.331405"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:48.331631"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19395.78515625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:48.331635"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:48.331740"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:54.332980"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:54.333220"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19396.13671875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:40:54.333224"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:40:54.333339"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:00.334630"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:00.334854"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19292.15625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:00.334859"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:00.334966"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 8.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:06.336525"
+        },
+        {
+          "name": "memory_usage",
+          "value": 40.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:06.336742"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19203.4140625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:06.336746"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:06.336851"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:12.338070"
+        },
+        {
+          "name": "memory_usage",
+          "value": 41.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:12.338307"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19143.68359375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:12.338312"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:12.338394"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:18.339434"
+        },
+        {
+          "name": "memory_usage",
+          "value": 41.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:18.339727"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 19036.66015625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:18.339732"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:18.339854"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 7.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:24.341282"
+        },
+        {
+          "name": "memory_usage",
+          "value": 41.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:24.341987"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18906.35546875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:24.341995"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:24.342192"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:30.343048"
+        },
+        {
+          "name": "memory_usage",
+          "value": 42.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:30.343323"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18809.8671875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:30.343328"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:30.343444"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 8.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:36.345812"
+        },
+        {
+          "name": "memory_usage",
+          "value": 42.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:36.346052"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18727.7421875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:36.346057"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:36.346174"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:42.347310"
+        },
+        {
+          "name": "memory_usage",
+          "value": 42.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:42.347527"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18623.18359375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:42.347532"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:42.347613"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:48.348639"
+        },
+        {
+          "name": "memory_usage",
+          "value": 42.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:48.348911"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18565.98046875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:48.348918"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:48.349050"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 3.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:54.349826"
+        },
+        {
+          "name": "memory_usage",
+          "value": 43.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:54.350070"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18502.953125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:41:54.350074"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:41:54.350190"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:00.351478"
+        },
+        {
+          "name": "memory_usage",
+          "value": 43.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:00.351780"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18402.30078125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:00.351785"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:00.351912"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 10.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:06.353654"
+        },
+        {
+          "name": "memory_usage",
+          "value": 43.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:06.353915"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18301.38671875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:06.353919"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:06.354034"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 8.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:12.355538"
+        },
+        {
+          "name": "memory_usage",
+          "value": 43.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:12.355766"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18216.4375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:12.355771"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:12.355876"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 8.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:18.356778"
+        },
+        {
+          "name": "memory_usage",
+          "value": 44.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:18.357005"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18119.40234375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:18.357010"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:18.357125"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:24.358333"
+        },
+        {
+          "name": "memory_usage",
+          "value": 44.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:24.358552"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 18020.11328125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:24.358557"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:24.358657"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:30.359676"
+        },
+        {
+          "name": "memory_usage",
+          "value": 44.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:30.359896"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17920.47265625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:30.359900"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:30.360009"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 8.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:36.361215"
+        },
+        {
+          "name": "memory_usage",
+          "value": 45.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:36.361436"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17785.9765625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:36.361441"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:36.361549"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:42.362464"
+        },
+        {
+          "name": "memory_usage",
+          "value": 45.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:42.362678"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17705.97265625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:42.362683"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:42.362764"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:48.364897"
+        },
+        {
+          "name": "memory_usage",
+          "value": 45.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:48.365152"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17613.8828125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:48.365157"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:48.365276"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:54.366479"
+        },
+        {
+          "name": "memory_usage",
+          "value": 46.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:54.366758"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17514.3671875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:42:54.366763"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:42:54.366886"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 11.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:00.368442"
+        },
+        {
+          "name": "memory_usage",
+          "value": 46.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:00.368659"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17383.7578125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:00.368664"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:00.368766"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:06.369846"
+        },
+        {
+          "name": "memory_usage",
+          "value": 46.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:06.370100"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17276.43359375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:06.370105"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:06.370207"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:12.371266"
+        },
+        {
+          "name": "memory_usage",
+          "value": 47.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:12.371506"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17185.1796875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:12.371510"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:12.371630"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:18.372838"
+        },
+        {
+          "name": "memory_usage",
+          "value": 47.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:18.373074"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 17086.44140625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:18.373079"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:18.373165"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:24.374267"
+        },
+        {
+          "name": "memory_usage",
+          "value": 47.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:24.374503"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16981.0703125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:24.374507"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:24.374599"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:30.376778"
+        },
+        {
+          "name": "memory_usage",
+          "value": 48.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:30.377406"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16884.00390625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:30.377452"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:30.377569"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 9.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:36.379238"
+        },
+        {
+          "name": "memory_usage",
+          "value": 48.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:36.379457"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16767.51953125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:36.379462"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:36.379565"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 7.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:42.380581"
+        },
+        {
+          "name": "memory_usage",
+          "value": 48.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:42.380798"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16699.53515625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:42.380803"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:42.380884"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:48.381886"
+        },
+        {
+          "name": "memory_usage",
+          "value": 48.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:48.382155"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16591.53125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:48.382161"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:48.382286"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 6.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:54.383729"
+        },
+        {
+          "name": "memory_usage",
+          "value": 49.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:54.383954"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16498.87890625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:43:54.383958"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:43:54.384045"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:00.385339"
+        },
+        {
+          "name": "memory_usage",
+          "value": 49.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:00.385633"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16395.0390625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:00.385638"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:00.385754"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 11.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:06.387458"
+        },
+        {
+          "name": "memory_usage",
+          "value": 50.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:06.387722"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16216.0859375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:06.387728"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:06.387829"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:12.389364"
+        },
+        {
+          "name": "memory_usage",
+          "value": 50.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:12.389608"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16105.625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:12.389613"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:12.389720"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:18.390928"
+        },
+        {
+          "name": "memory_usage",
+          "value": 50.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:18.391164"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 16031.5234375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:18.391168"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:18.391287"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 9.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:24.392219"
+        },
+        {
+          "name": "memory_usage",
+          "value": 51.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:24.392460"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15924.05859375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:24.392464"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:24.392582"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:30.393782"
+        },
+        {
+          "name": "memory_usage",
+          "value": 51.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:30.394019"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15909.94921875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:30.394023"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:30.394139"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 7.7,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:36.395719"
+        },
+        {
+          "name": "memory_usage",
+          "value": 51.3,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:36.395938"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15804.41015625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:36.395942"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:36.396048"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:42.397619"
+        },
+        {
+          "name": "memory_usage",
+          "value": 51.6,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:42.397838"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15712.37890625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:42.397842"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:42.397928"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 4.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:48.399220"
+        },
+        {
+          "name": "memory_usage",
+          "value": 52.0,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:48.399533"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15603.7265625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:48.399539"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:48.399678"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 7.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:54.401414"
+        },
+        {
+          "name": "memory_usage",
+          "value": 52.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:54.401632"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15531.28515625,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:44:54.401636"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:44:54.401707"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.2,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:00.403236"
+        },
+        {
+          "name": "memory_usage",
+          "value": 52.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:00.403444"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15427.546875,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:45:00.403448"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:00.403533"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.9,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:06.404413"
+        },
+        {
+          "name": "memory_usage",
+          "value": 52.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:06.404670"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15327.68359375,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:45:06.404675"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:06.404781"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.8,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:12.406112"
+        },
+        {
+          "name": "memory_usage",
+          "value": 53.1,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:12.406378"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15219.14453125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:45:12.406383"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:12.406508"
+        },
+        {
+          "name": "cpu_usage",
+          "value": 5.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:18.407548"
+        },
+        {
+          "name": "memory_usage",
+          "value": 53.5,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:18.407782"
+        },
+        {
+          "name": "memory_available_mb",
+          "value": 15093.51953125,
+          "unit": "MB",
+          "timestamp": "2025-10-23T22:45:18.407786"
+        },
+        {
+          "name": "disk_usage",
+          "value": 90.4,
+          "unit": "percent",
+          "timestamp": "2025-10-23T22:45:18.407893"
+        }
+      ],
+      "operation": [
+        {
+          "name": "load_data_from_csv_duration",
+          "value": 0.001045,
+          "unit": "seconds",
+          "timestamp": "2025-10-23T22:40:20.370174"
+        },
+        {
+          "name": "load_data_from_csv_success",
+          "value": 1,
+          "unit": "boolean",
+          "timestamp": "2025-10-23T22:40:20.370178"
+        },
+        {
+          "name": "csp_solve_duration",
+          "value": 0.027152,
+          "unit": "seconds",
+          "timestamp": "2025-10-23T22:40:20.860148"
+        },
+        {
+          "name": "csp_solve_success",
+          "value": 1,
+          "unit": "boolean",
+          "timestamp": "2025-10-23T22:40:20.860155"
+        },
+        {
+          "name": "csp_solve_iterations",
+          "value": 2000,
+          "unit": "count",
+          "timestamp": "2025-10-23T22:40:20.860158"
+        },
+        {
+          "name": "csp_solve_constraint_violations",
+          "value": 6,
+          "unit": "count",
+          "timestamp": "2025-10-23T22:40:20.860161"
+        }
+      ]
+    },
+    "operation_performance": {
+      "load_data_from_csv": {
+        "total_calls": 1,
+        "successful_calls": 1,
+        "average_duration": 0.001045,
+        "min_duration": 0.001045,
+        "max_duration": 0.001045,
+        "success_rate": 1.0
+      },
+      "csp_solve": {
+        "total_calls": 1,
+        "successful_calls": 1,
+        "average_duration": 0.027152,
+        "min_duration": 0.027152,
+        "max_duration": 0.027152,
+        "success_rate": 1.0
+      }
+    },
+    "system_performance": {
+      "cpu": {
+        "average": 6.81923076923077,
+        "max": 13.4,
+        "min": 3.9
+      },
+      "memory": {
+        "average": 45.76923076923077,
+        "max": 53.5,
+        "min": 37.4
+      }
+    }
+  },
+  "error_summary": {
+    "total_errors": 0
+  },
+  "system_info": {
+    "python_version": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+    "platform": "win32",
+    "working_directory": "C:\\Users\\Lenovo\\Desktop\\intelligent System\\Time Table"
+  }
+}

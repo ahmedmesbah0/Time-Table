@@ -1,0 +1,53 @@
+Courses,Course Code,Credits,Department,Type,Instructor(s)
+Fundamentals of Programming,CSC111,3,CSIT,LEC/LAB,Reda Elbasiony
+Digital Logic Design,ECE111,3,CSIT,LEC/LAB/TUT,"Ahmed Allam, Sameh Shreif"
+Physics 1,PHY113,3,CSIT,LEC/LAB/TUT,Adel Fathy
+Mathematics (1) (Calculus + Linear Algebra),MTH111,3,CSIT,LEC/TUT,Ayman Arafa
+Japanese Culture,LRA101,2,CSIT,LEC,Sherine Elmotasem
+Music and Technology,LRA104,2,CSIT,LEC,Ahmed Madkour
+Japanese Language (1),LRA401,1,CSIT,LEC (Section),Maiko Sato
+Computer Organization,CSE214,3,CSIT,LEC/LAB/TUT,Mostafa Soliman
+Software Engineering,CSC211,3,CSIT,LEC/LAB,Ahmed Arafa
+Networks and Web Programming,CNC111,3,CSIT,LEC/LAB,Ahmed Anter
+Algorithms Analysis and Design,CSC114,3,CSIT,LEC/LAB,Marghany Hassan
+Ordinary Differential Equations,ACM215,3,CSIT,LEC/TUT,Ayman Arafa
+Probability and Statistics,MTH212,3,CSIT,LEC/TUT,Ahmed Zakaria
+Natural Resources and Sustainability,LRA306,2,CSIT,LEC,Mahmoud Nasr
+Japanese Language (3),LRA403,1,CSIT,LEC (Section),Eman
+Database Systems,CNC314,3,CSIT,LEC/LAB,Mohamed Issa
+Intelligent Systems,AID312,3,CSIT,LEC/LAB,Ahmed Bayumi
+Computer Networks,CNC311,3,CSIT,LEC/LAB,Samir Ahmed
+Computer Graphics and Visualization,CSC317,3,CSIT,LEC/LAB,Hataba
+Digital Signal Processing,ECE324,3,CSIT,LEC/LAB,Ahmed Abdel-Malk
+Foundations of Information Systems,CNC312,3,CNC,LEC/LAB/TUT,Reda Elbasiony
+Mathematics of Data Science,AID311,3,AID,LEC/LAB/TUT,Ahmed Anter
+Software Modeling and Analysis,CSC314,3,CSC,LEC/LAB/TUT,Mustafa AlSayed
+Human Biology,BIF311,3,BIF,LEC/LAB/TUT,Eman Allam
+Seminar and Project-Based Learning on CSIT,CSC315,3,BIF,LEC/LAB,Mostafa Soliman
+New Trends in Data Science,AID427,3,AID,LEC/LAB/TUT,Ahmed Arafa
+BIG Data Analytics & Visualization,AID411,3,AID,LEC/LAB/TUT,Marghany Hassan
+Data Security,AID413,3,AID,LEC/LAB/TUT,Ahmed Arafa
+New Trends in AI,AID428,3,AID,LEC/LAB/TUT,Ahmed Bayumi
+Advanced Data Mining,AID417,3,AID,LEC/LAB/TUT,Mohamed Issa
+Machine Learning,AID321,3,AID,LEC/LAB/TUT,Marghany Hassan
+IT Security and Risk Management,CNC419,3,CNC,LEC/LAB/TUT,Hataba
+IT Infrastructure,CNC324,3,CNC,LEC/LAB/TUT,Mohamed Khames
+Software Security,CNC418,3,CNC,LEC/LAB/TUT,Hataba
+Digital Forensics,CNC413,3,CNC,LEC/LAB/TUT,Samir Ahmed
+Network Design and Management,CNC415,3,CNC,LEC/LAB/TUT,Mustafa AlSayed
+Fundamentals of Cybersecurity,CNC411,3,CNC,LEC/LAB/TUT,Ahmed Arafa
+IT Infrastructure,BIF424,3,BIF,LEC/LAB/TUT,Mohamed Khames
+New Trends in Bioinformatics,BIF425,3,BIF,LEC/LAB/TUT,Mohamed Issa
+Algorithms in Bioinformatics,BIF413,3,BIF,LEC/LAB/TUT,Marghany Hassan
+Structural Bioinformatics,BIF411,3,BIF,LEC/LAB/TUT,Sameh Shreif
+Management and Design of Health Care Systems,BIF412,3,BIF,LEC/LAB/TUT,Sameh Shreif
+Software Verification and Validation (V&V),CSC411,3,CSC,LEC/LAB/TUT,Mohamed Khames
+Software Security,CSC412,3,CSC,LEC/LAB/TUT,Mustafa AlSayed
+Software Quality,CSC410,3,CSC,LEC/LAB/TUT,Mohamed Khames
+Distributed Systems,CSC426,3,CSC,LEC/LAB/TUT,Mustafa AlSayed
+New Trends in Computer Science,CSC415,3,CSC,LEC/LAB/TUT,Ahmed Bayumi
+Game Design & Development,CSC414,3,CSC,LEC/LAB/TUT,Mustafa AlSayed
+Graduation Project 1,CNC414,2,CNC,DAY/Meetings,Multiple Instructors
+Graduation Project 1,AID414,2,CNC,DAY/Meetings,Multiple Instructors
+Graduation Project 1,CSC413,2,CNC,DAY/Meetings,Multiple Instructors
+Graduation Project 1,BIF410,2,CNC,DAY/Meetings,Multiple Instructors
