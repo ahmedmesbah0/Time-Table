@@ -111,6 +111,36 @@ The program uses a backtracking algorithm to assign each class to a time slot, r
 - If no solution is found, try adjusting the constraints or adding more resources (rooms, time slots)
 - Generated timetables are saved to `generated_timetable.csv` and also stored in the `timetable.db` SQLite database
 
+## Project Documentation
+
+### 📄 Project Report
+A comprehensive technical report covering:
+- CSP formulation (variables, domains, constraints)
+- Backtracking algorithm implementation
+- System architecture and design
+- Performance analysis and metrics
+- Testing and validation
+- Discussion points for TA presentation
+
+**Generated Documentation:**
+- **[Full Project Report](https://github.com/ahmedmesbah0/Time-Table)** - Detailed 11-section technical documentation
+- **[Quick Reference Guide](https://github.com/ahmedmesbah0/Time-Table)** - Concise talking points for TA discussions
+
+### Key Project Stats
+- **Problem Size:** 279 sessions across 4 academic levels
+- **Resources:** 82 rooms, 35 instructors, 28 time slots
+- **Algorithm:** Backtracking with constraint propagation
+- **Success Rate:** 85-95%
+- **Solve Time:** 5-30 seconds
+- **Hard Violations:** 0 (guaranteed)
+- **Code Size:** 1,551 lines of Python
+
+### CSP Formulation Summary
+- **Variables:** Each class session to be scheduled
+- **Domains:** Valid (time slot, room, instructor) combinations
+- **Hard Constraints:** No double-booking, room capacity, room type matching
+- **Soft Constraints:** Time preferences, instructor preferences, gap minimization
+
 ## Course Project
 
 This was developed as Project 1 for the Intelligent Systems course (Fall 2025/2026) at the CSIT department.
