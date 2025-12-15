@@ -16,10 +16,10 @@ class DataProcessor:
     """Handles data loading, validation, and export for the timetable system"""
     
     def __init__(self):
-        self.data_dir = "."
-        self.db_path = "timetable.db"
+        self.data_dir = "data"
+        self.db_path = "output/timetable.db"
         
-    def validate_csv_files(self, data_dir: str = ".") -> Dict[str, List[str]]:
+    def validate_csv_files(self, data_dir: str = "data") -> Dict[str, List[str]]:
         """Validate CSV files for required columns and data integrity"""
         validation_results = {}
         
@@ -70,7 +70,7 @@ class DataProcessor:
         
         return validation_results
     
-    def create_database(self, data_dir: str = "."):
+    def create_database(self, data_dir: str = "data"):
         """Create SQLite database from CSV files"""
         print("Creating SQLite database...")
         
@@ -337,7 +337,7 @@ class DataProcessor:
         conn.close()
         return results
     
-    def export_timetable_to_excel(self, filename: str = "timetable.xlsx"):
+    def export_timetable_to_excel(self, filename: str = "output/timetable.xlsx"):
         """Export timetable to Excel file"""
         timetable_data = self.get_timetable_from_db()
         

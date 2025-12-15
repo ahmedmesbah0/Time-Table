@@ -1,26 +1,8 @@
-# Core dependencies
+# Required packages
 streamlit>=1.28.0
 pandas>=2.0.0
 plotly>=5.15.0
 openpyxl>=3.1.0
 
-# Database
-sqlite3  # Built-in with Python
-
-# Professional features
-psutil>=5.9.0  # System monitoring
-colorama>=0.4.6  # Colored terminal output
-
-# Development and testing
+# Testing (optional)
 pytest>=7.4.0
-pytest-cov>=4.1.0
-pytest-mock>=3.11.0
-
-# Code quality
-black>=23.7.0
-flake8>=6.0.0
-mypy>=1.5.0
-
-# Documentation
-sphinx>=7.1.0
-sphinx-rtd-theme>=1.3.0

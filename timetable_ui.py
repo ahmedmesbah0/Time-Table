@@ -1,552 +1,457 @@
 """
-User Interface for Timetable Generation System
-Provides a web-based interface for data management and timetable generation
+Simple Timetable Generator UI
+Clean and easy-to-use interface for generating class timetables
 """
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 from datetime import datetime
-import json
 import os
-from pathlib import Path
 
-# Import our modules
 from csp_timetable import TimetableCSP
 from data_processor import DataProcessor
 
 
-class TimetableUI:
-    """Web-based user interface for the timetable generation system"""
+def main():
+    """Main application"""
+    st.set_page_config(
+        page_title="Timetable Generator",
+        layout="wide"
+    )
     
-    def __init__(self):
-        self.csp = TimetableCSP()
-        self.processor = DataProcessor()
+    # Title and description
+    st.title("CSIT Timetable Generator")
+    st.markdown("Automatic Timetable Generation using CSP")
+    st.markdown("Intelligent Systems - Fall 2025/2026")
+    st.divider()
+    
+    # Initialize session state
+    if 'timetable_generated' not in st.session_state:
+        st.session_state.timetable_generated = False
+    if 'csp' not in st.session_state:
+        st.session_state.csp = TimetableCSP()
+    if 'processor' not in st.session_state:
+        st.session_state.processor = DataProcessor()
+    
+    # Sidebar for navigation
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio(
+        "Select page:",
+        ["Home", "Data", "Generate", "Results"]
+    )
+    
+    # Display pages
+    if page == "Home":
+        show_home()
+    elif page == "Data":
+        show_data_page()
+    elif page == "Generate":
+        show_generate_page()
+    elif page == "Results":
+        show_results_page()
+
+
+def show_home():
+    """Home page with project overview"""
+    st.header("Welcome to the Timetable Generator!")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("What is this?")
+        st.write("""
+        This tool automatically creates class timetables for the CSIT department.
+        It uses a **Constraint Satisfaction Problem (CSP)** approach to schedule 
+        classes while respecting all constraints.
         
-    def run(self):
-        """Run the Streamlit application"""
-        st.set_page_config(
-            page_title="CSIT Timetable Generator",
-            page_icon="📅",
-            layout="wide"
+        **How it works:**
+        1. Load your data (rooms, instructors, courses, etc.)
+        2. Click generate to run the CSP solver
+        3. View and export your timetable
+        """)
+        
+        st.subheader("CSP Components")
+        st.write("""
+        - **Variables**: Each class session to schedule
+        - **Domains**: Valid (time, room, instructor) combinations
+        - **Constraints**: Rules that must be satisfied
+          - Hard: No conflicts, correct room types, capacity
+          - Soft: Prefer morning/afternoon, balanced workload
+        """)
+    
+    with col2:
+        st.subheader("Quick Stats")
+        try:
+            stats = st.session_state.processor.get_statistics()
+            
+            metrics = [
+                ("Time Slots", stats.get('time_slots_count', 0)),
+                ("Rooms", stats.get('rooms_count', 0)),
+                ("Instructors", stats.get('instructors_count', 0)),
+                ("Courses", stats.get('courses_count', 0)),
+                ("Sessions to Schedule", stats.get('sessions_count', 0))
+            ]
+            
+            for label, value in metrics:
+                st.metric(label, value)
+                
+        except Exception as e:
+            st.info("Load data files to see statistics")
+        
+        st.subheader("Getting Started")
+        st.write("1. Go to Data tab to load CSV files")
+        st.write("2. Go to Generate tab to create timetable")
+        st.write("3. Go to Results tab to view and export")
+
+
+def show_data_page():
+    """Data loading and validation page"""
+    st.header("Data Management")
+    
+    tab1, tab2 = st.tabs(["Load Data", "View Data"])
+    
+    with tab1:
+        st.subheader("Load CSV Files")
+        st.write("The system needs these CSV files from the `data/` folder:")
+        
+        required_files = [
+            "Timeslots.csv",
+            "Rooms.csv", 
+            "Instructors_data.csv",
+            "Groups.csv",
+            "Sections.csv",
+            "Timetable.csv"
+        ]
+        
+        # Check which files exist
+        st.write("**File Status:**")
+        all_exist = True
+        for file in required_files:
+            file_path = os.path.join("data", file)
+            if os.path.exists(file_path):
+                st.success(f"{file}")
+            else:
+                st.error(f"{file} - Missing!")
+                all_exist = False
+        
+        st.divider()
+        
+        if all_exist:
+            if st.button("Load Data", type="primary", use_container_width=True):
+                with st.spinner("Loading data..."):
+                    try:
+                        # Load data
+                        st.session_state.csp.load_data_from_csv()
+                        st.session_state.processor.create_database()
+                        
+                        st.success("Data loaded successfully!")
+                        
+                        # Show summary
+                        st.write("**Loaded:**")
+                        st.write(f"- {len(st.session_state.csp.time_slots)} time slots")
+                        st.write(f"- {len(st.session_state.csp.rooms)} rooms")
+                        st.write(f"- {len(st.session_state.csp.instructors)} instructors")
+                        st.write(f"- {len(st.session_state.csp.courses)} courses")
+                        st.write(f"- {len(st.session_state.csp.sessions)} sessions")
+                        
+                    except Exception as e:
+                        st.error(f"Error loading data: {str(e)}")
+        else:
+            st.warning("Please add all required CSV files to the data/ folder")
+    
+    with tab2:
+        st.subheader("View Loaded Data")
+        
+        if len(st.session_state.csp.time_slots) == 0:
+            st.info("Load data first to view it here")
+        else:
+            data_type = st.selectbox(
+                "Select data to view",
+                ["Time Slots", "Rooms", "Instructors", "Courses", "Sessions"]
+            )
+            
+            if data_type == "Time Slots":
+                df = pd.DataFrame([
+                    {"Day": ts.day, "Start": ts.start_time, "End": ts.end_time}
+                    for ts in st.session_state.csp.time_slots
+                ])
+                st.dataframe(df, use_container_width=True)
+                
+            elif data_type == "Rooms":
+                df = pd.DataFrame([
+                    {"Room": r.room_id, "Type": r.room_type, "Capacity": r.capacity}
+                    for r in st.session_state.csp.rooms
+                ])
+                st.dataframe(df, use_container_width=True)
+                
+            elif data_type == "Instructors":
+                df = pd.DataFrame([
+                    {"ID": i.instructor_id, "Name": i.name, "Preference": i.preference}
+                    for i in st.session_state.csp.instructors
+                ])
+                st.dataframe(df, use_container_width=True)
+                
+            elif data_type == "Courses":
+                df = pd.DataFrame([
+                    {"Code": c.course_id, "Name": c.course_name, "Credits": c.credits}
+                    for c in st.session_state.csp.courses
+                ])
+                st.dataframe(df, use_container_width=True)
+                
+            elif data_type == "Sessions":
+                df = pd.DataFrame([
+                    {"ID": s.session_id, "Course": s.course_id, "Type": s.session_type, "Section": s.section_id}
+                    for s in st.session_state.csp.sessions
+                ])
+                st.dataframe(df, use_container_width=True)
+
+
+def show_generate_page():
+    """Timetable generation page"""
+    st.header("Generate Timetable")
+    
+    # Check if data is loaded
+    if len(st.session_state.csp.sessions) == 0:
+        st.warning("Please load data first (go to Data page)")
+        return
+    
+    st.write(f"Ready to schedule **{len(st.session_state.csp.sessions)} sessions**")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("Solver Settings")
+        
+        max_iterations = st.slider(
+            "Maximum Iterations",
+            min_value=1000,
+            max_value=10000,
+            value=5000,
+            step=500,
+            help="How many attempts the solver will make"
         )
         
-        st.title("📅 CSIT Automated Timetable Generator")
-        st.markdown("**Intelligent Systems Fall 2025/2026 - Project 1**")
-        st.markdown("Constraint Satisfaction Problem (CSP) based timetable generation")
+        st.write("**Algorithm:** Backtracking with Constraint Checking")
+        st.write("**Constraints:**")
+        st.write("- No instructor conflicts")
+        st.write("- No room conflicts")
+        st.write("- Correct room types (Lab/Lecture)")
+        st.write("- Sufficient room capacity")
+        st.write("- Instructor preferences (soft)")
+    
+    with col2:
+        st.subheader("Generate")
         
-        # Sidebar navigation
-        st.sidebar.title("Navigation")
-        page = st.sidebar.selectbox(
-            "Choose a page",
-            ["🏠 Home", "📊 Data Management", "⚙️ Generate Timetable", "📈 Analysis", "🔧 Settings"]
+        st.write("Click the button below to start generating the timetable.")
+        st.write("This may take 30-60 seconds depending on the data size.")
+        
+        if st.button("Generate Timetable", type="primary", use_container_width=True):
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            try:
+                # Step 1: Build CSP model
+                status_text.text("Building CSP model...")
+                progress_bar.progress(25)
+                st.session_state.csp.build_csp_model()
+                
+                # Step 2: Solve
+                status_text.text("Solving CSP (this may take a minute)...")
+                progress_bar.progress(50)
+                success = st.session_state.csp.solve(max_iterations=max_iterations)
+                
+                if success:
+                    # Step 3: Evaluate soft constraints
+                    status_text.text("Evaluating constraints...")
+                    progress_bar.progress(75)
+                    st.session_state.csp.evaluate_soft_constraints()
+                    
+                    # Step 4: Save results
+                    status_text.text("Saving results...")
+                    progress_bar.progress(90)
+                    
+                    assignments = st.session_state.csp.assignments
+                    generation_info = {
+                        'max_iterations': max_iterations,
+                        'generation_time': datetime.now().isoformat(),
+                        'hard_violations': len(st.session_state.csp.constraint_violations),
+                        'soft_violations': len(st.session_state.csp.soft_constraint_violations)
+                    }
+                    
+                    st.session_state.processor.save_timetable_to_db(assignments, generation_info, st.session_state.csp)
+                    st.session_state.csp.export_timetable_to_csv()
+                    
+                    # Complete
+                    progress_bar.progress(100)
+                    status_text.text("Complete!")
+                    
+                    st.success("Timetable generated successfully!")
+                    
+                    # Show summary
+                    st.write("**Results:**")
+                    st.write(f"- Total sessions scheduled: {len(st.session_state.csp.assignments)}")
+                    st.write(f"- Hard constraint violations: {len(st.session_state.csp.constraint_violations)}")
+                    st.write(f"- Soft constraint violations: {len(st.session_state.csp.soft_constraint_violations)}")
+                    
+                    st.session_state.timetable_generated = True
+                    
+                    st.info("Go to Results page to view and export the timetable")
+                    
+                else:
+                    st.error("Could not find a valid solution. Try increasing max iterations or checking your data.")
+                    
+            except Exception as e:
+                st.error(f"Error during generation: {str(e)}")
+                import traceback
+                with st.expander("Error Details"):
+                    st.code(traceback.format_exc())
+
+
+def show_results_page():
+    """Results viewing and export page"""
+    st.header("Results")
+    
+    # Check if timetable exists
+    try:
+        timetable_data = st.session_state.processor.get_timetable_from_db()
+        
+        if not timetable_data:
+            st.info("No timetable generated yet. Go to **⚙️ Generate** page to create one.")
+            return
+            
+    except Exception as e:
+        st.info("No timetable generated yet. Go to **⚙️ Generate** page to create one.")
+        return
+    
+    # Tabs for different views
+    tab1, tab2, tab3 = st.tabs(["Timetable", "Statistics", "Export"])
+    
+    with tab1:
+        st.subheader("Generated Timetable")
+        
+        df = pd.DataFrame(timetable_data)
+        
+        # Filters
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            days = ["All"] + sorted(df['day'].unique().tolist())
+            selected_day = st.selectbox("Filter by Day", days)
+        
+        with col2:
+            instructors = ["All"] + sorted(df['instructor_id'].unique().tolist())
+            selected_instructor = st.selectbox("Filter by Instructor", instructors)
+        
+        with col3:
+            rooms = ["All"] + sorted(df['room_id'].unique().tolist())
+            selected_room = st.selectbox("Filter by Room", rooms)
+        
+        # Apply filters
+        filtered_df = df.copy()
+        if selected_day != "All":
+            filtered_df = filtered_df[filtered_df['day'] == selected_day]
+        if selected_instructor != "All":
+            filtered_df = filtered_df[filtered_df['instructor_id'] == selected_instructor]
+        if selected_room != "All":
+            filtered_df = filtered_df[filtered_df['room_id'] == selected_room]
+        
+        # Display table
+        st.dataframe(
+            filtered_df[['day', 'start_time', 'end_time', 'course_id', 'session_type', 
+                        'section_id', 'room_id', 'instructor_id']],
+            use_container_width=True,
+            height=400
         )
         
-        if page == "🏠 Home":
-            self.show_home_page()
-        elif page == "📊 Data Management":
-            self.show_data_management_page()
-        elif page == "⚙️ Generate Timetable":
-            self.show_generation_page()
-        elif page == "📈 Analysis":
-            self.show_analysis_page()
-        elif page == "🔧 Settings":
-            self.show_settings_page()
+        st.write(f"Showing {len(filtered_df)} of {len(df)} sessions")
     
-    def show_home_page(self):
-        """Display the home page"""
-        st.header("Welcome to CSIT Timetable Generator")
+    with tab2:
+        st.subheader("Statistics")
+        
+        df = pd.DataFrame(timetable_data)
+        
+        # Key metrics
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Total Sessions", len(df))
+        with col2:
+            st.metric("Rooms Used", df['room_id'].nunique())
+        with col3:
+            st.metric("Instructors", df['instructor_id'].nunique())
+        with col4:
+            st.metric("Days", df['day'].nunique())
+        
+        st.divider()
+        
+        # Charts
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.write("**Sessions by Day**")
+            day_counts = df['day'].value_counts()
+            fig = px.bar(x=day_counts.index, y=day_counts.values,
+                        labels={'x': 'Day', 'y': 'Sessions'})
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.write("**Sessions by Time**")
+            time_counts = df['start_time'].value_counts().head(10)
+            fig = px.bar(x=time_counts.index, y=time_counts.values,
+                        labels={'x': 'Start Time', 'y': 'Sessions'})
+            st.plotly_chart(fig, use_container_width=True)
         
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("🎯 Project Overview")
-            st.markdown("""
-            This system implements an automated timetable generation solution using 
-            Constraint Satisfaction Problem (CSP) techniques for the CSIT department.
-            
-            **Key Features:**
-            - CSP-based scheduling algorithm
-            - Hard and soft constraint handling
-            - Dynamic data management
-            - Performance evaluation
-            - Interactive web interface
-            """)
+            st.write("**Top 10 Most Used Rooms**")
+            room_counts = df['room_id'].value_counts().head(10)
+            fig = px.bar(x=room_counts.index, y=room_counts.values,
+                        labels={'x': 'Room', 'y': 'Sessions'})
+            st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            st.subheader("📋 Quick Stats")
-            try:
-                stats = self.processor.get_statistics()
-                st.metric("Time Slots", stats.get('time_slots_count', 0))
-                st.metric("Rooms", stats.get('rooms_count', 0))
-                st.metric("Instructors", stats.get('instructors_count', 0))
-                st.metric("Courses", stats.get('courses_count', 0))
-                st.metric("Sections", stats.get('sections_count', 0))
-                st.metric("Sessions", stats.get('sessions_count', 0))
-            except:
-                st.info("No data loaded yet. Please go to Data Management to load CSV files.")
-        
-        st.subheader("🚀 Getting Started")
-        st.markdown("""
-        1. **Data Management**: Load and validate your CSV data files
-        2. **Generate Timetable**: Run the CSP solver to create a timetable
-        3. **Analysis**: View statistics and performance metrics
-        4. **Settings**: Configure solver parameters and preferences
-        """)
-        
-        # Show recent timetable if available
-        try:
-            recent_timetable = self.processor.get_timetable_from_db()
-            if recent_timetable:
-                st.subheader("📅 Recent Timetable")
-                df = pd.DataFrame(recent_timetable)
-                st.dataframe(df.head(10), width='stretch')
-                
-                if st.button("View Full Timetable"):
-                    st.session_state.show_full_timetable = True
-        except:
-            pass
+            st.write("**Instructor Workload**")
+            inst_counts = df['instructor_id'].value_counts().head(10)
+            fig = px.bar(x=inst_counts.index, y=inst_counts.values,
+                        labels={'x': 'Instructor', 'y': 'Sessions'})
+            st.plotly_chart(fig, use_container_width=True)
     
-    def show_data_management_page(self):
-        """Display the data management page"""
-        st.header("📊 Data Management")
+    with tab3:
+        st.subheader("Export Timetable")
         
-        tab1, tab2, tab3 = st.tabs(["📁 Load Data", "✅ Validate Data", "💾 Database Operations"])
+        st.write("Download the generated timetable in different formats:")
         
-        with tab1:
-            st.subheader("Load CSV Data")
-            
-            # File upload
-            uploaded_files = st.file_uploader(
-                "Upload CSV files",
-                type=['csv'],
-                accept_multiple_files=True,
-                help="Upload Timeslots.csv, Rooms.csv, Instructors_data.csv, Sections.csv, and Timetable.csv"
-            )
-            
-            if uploaded_files:
-                for uploaded_file in uploaded_files:
-                    # Save uploaded file
-                    with open(uploaded_file.name, "wb") as f:
-                        f.write(uploaded_file.getbuffer())
-                    st.success(f"Uploaded {uploaded_file.name}")
-            
-            # Load data button
-            if st.button("🔄 Load Data from CSV Files"):
-                with st.spinner("Loading data..."):
-                    try:
-                        self.csp.load_data_from_csv()
-                        self.processor.create_database()
-                        st.success("Data loaded successfully!")
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Error loading data: {str(e)}")
-        
-        with tab2:
-            st.subheader("Data Validation")
-            
-            if st.button("🔍 Validate CSV Files"):
-                with st.spinner("Validating files..."):
-                    validation_results = self.processor.validate_csv_files()
-                    
-                    for filename, errors in validation_results.items():
-                        if errors:
-                            st.error(f"❌ {filename}")
-                            for error in errors:
-                                st.write(f"  - {error}")
-                        else:
-                            st.success(f"✅ {filename}")
-        
-        with tab3:
-            st.subheader("Database Operations")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("💾 Create Database"):
-                    with st.spinner("Creating database..."):
-                        try:
-                            self.processor.create_database()
-                            st.success("Database created successfully!")
-                        except Exception as e:
-                            st.error(f"Error creating database: {str(e)}")
-                
-                if st.button("📊 Show Statistics"):
-                    try:
-                        stats = self.processor.get_statistics()
-                        st.json(stats)
-                    except Exception as e:
-                        st.error(f"Error getting statistics: {str(e)}")
-            
-            with col2:
-                if st.button("💾 Backup Data"):
-                    with st.spinner("Creating backup..."):
-                        try:
-                            backup_path = self.processor.backup_data()
-                            st.success(f"Backup created in {backup_path}")
-                        except Exception as e:
-                            st.error(f"Error creating backup: {str(e)}")
-                
-                if st.button("📤 Export to Excel"):
-                    with st.spinner("Exporting..."):
-                        try:
-                            self.processor.export_timetable_to_excel()
-                            st.success("Excel file exported successfully!")
-                        except Exception as e:
-                            st.error(f"Error exporting: {str(e)}")
-    
-    def show_generation_page(self):
-        """Display the timetable generation page"""
-        st.header("⚙️ Generate Timetable")
-        
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("CSP Solver Configuration")
+            # CSV download
+            df = pd.DataFrame(timetable_data)
+            csv_data = df.to_csv(index=False)
             
-            # Solver parameters
-            max_iterations = st.slider(
-                "Maximum Iterations",
-                min_value=1000,
-                max_value=10000,
-                value=5000,
-                step=1000,
-                help="Maximum number of iterations for the CSP solver"
+            st.download_button(
+                label="Download CSV",
+                data=csv_data,
+                file_name=f"timetable_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv",
+                use_container_width=True
             )
-            
-            # Constraint preferences
-            st.subheader("Constraint Preferences")
-            
-            col_a, col_b = st.columns(2)
-            
-            with col_a:
-                respect_instructor_preferences = st.checkbox(
-                    "Respect Instructor Preferences",
-                    value=True,
-                    help="Consider instructor time preferences (Morning/Afternoon/No Thursday)"
-                )
-                
-                avoid_early_morning = st.checkbox(
-                    "Avoid Early Morning Slots",
-                    value=True,
-                    help="Prefer slots after 10:00 AM"
-                )
-            
-            with col_b:
-                avoid_late_evening = st.checkbox(
-                    "Avoid Late Evening Slots",
-                    value=True,
-                    help="Prefer slots before 3:00 PM"
-                )
-                
-                balance_workload = st.checkbox(
-                    "Balance Instructor Workload",
-                    value=True,
-                    help="Distribute sessions evenly among instructors"
-                )
         
         with col2:
-            st.subheader("Generation Status")
-            
-            # Check if data is loaded
-            try:
-                stats = self.processor.get_statistics()
-                if stats.get('sessions_count', 0) == 0:
-                    st.warning("⚠️ No sessions loaded. Please load data first.")
-                    return
-                else:
-                    st.success(f"✅ {stats['sessions_count']} sessions ready")
-            except:
-                st.error("❌ No data loaded. Please load CSV files first.")
-                return
-            
-            # Generation button
-            if st.button("🚀 Generate Timetable", type="primary"):
-                with st.spinner("Generating timetable..."):
-                    try:
-                        # Build CSP model
-                        self.csp.build_csp_model()
-                        
-                        # Solve CSP
-                        success = self.csp.solve(max_iterations=max_iterations)
-                        
-                        if success:
-                            # Evaluate soft constraints
-                            
-                            self.csp.evaluate_soft_constraints()
-                            
-                            # Save to database
-                            assignments = self.csp.assignments
-                            generation_info = {
-                                'max_iterations': max_iterations,
-                                'generation_time': datetime.now().isoformat(),
-                                'hard_violations': len(self.csp.constraint_violations),
-                                'soft_violations': len(self.csp.soft_constraint_violations)
-                            }
-                            
-                            self.processor.save_timetable_to_db(assignments, generation_info)
-                            
-                            st.success("🎉 Timetable generated successfully!")
-                            st.rerun()
-                        else:
-                            st.error("❌ Failed to generate timetable. Check constraints.")
-                            
-                    except Exception as e:
-                        st.error(f"Error generating timetable: {str(e)}")
+            # Excel export
+            if st.button("Export to Excel", use_container_width=True):
+                try:
+                    st.session_state.processor.export_timetable_to_excel()
+                    st.success("Excel file saved to output/timetable.xlsx")
+                except Exception as e:
+                    st.error(f"Error exporting: {str(e)}")
         
-        # Show generation results
-        try:
-            recent_timetable = self.processor.get_timetable_from_db()
-            if recent_timetable:
-                st.subheader("📅 Generated Timetable")
-                
-                # Display timetable
-                df = pd.DataFrame(recent_timetable)
-                
-                # Filter options
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    day_filter = st.selectbox("Filter by Day", ["All"] + list(df['day'].unique()))
-                
-                with col2:
-                    instructor_filter = st.selectbox("Filter by Instructor", ["All"] + list(df['instructor_id'].unique()))
-                
-                with col3:
-                    room_filter = st.selectbox("Filter by Room", ["All"] + list(df['room_id'].unique()))
-                
-                # Apply filters
-                filtered_df = df.copy()
-                if day_filter != "All":
-                    filtered_df = filtered_df[filtered_df['day'] == day_filter]
-                if instructor_filter != "All":
-                    filtered_df = filtered_df[filtered_df['instructor_id'] == instructor_filter]
-                if room_filter != "All":
-                    filtered_df = filtered_df[filtered_df['room_id'] == room_filter]
-                
-                st.dataframe(filtered_df, width='stretch')
-                
-                # Download options
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    csv_data = filtered_df.to_csv(index=False)
-                    st.download_button(
-                        label="📥 Download CSV",
-                        data=csv_data,
-                        file_name=f"timetable_{datetime.now().strftime('%Y%m%d')}.csv",
-                        mime="text/csv"
-                    )
-                
-                with col2:
-                    if st.button("📊 Export to Excel"):
-                        self.processor.export_timetable_to_excel()
-                        st.success("Excel file exported!")
-                        
-        except Exception as e:
-            st.info("No timetable generated yet.")
-    
-    def show_analysis_page(self):
-        """Display the analysis page"""
-        st.header("📈 Timetable Analysis")
-        
-        try:
-            timetable_data = self.processor.get_timetable_from_db()
-            if not timetable_data:
-                st.info("No timetable data available. Please generate a timetable first.")
-                return
-            
-            df = pd.DataFrame(timetable_data)
-            
-            # Overview metrics
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                st.metric("Total Sessions", len(df))
-            
-            with col2:
-                unique_rooms = df['room_id'].nunique()
-                st.metric("Rooms Used", unique_rooms)
-            
-            with col3:
-                unique_instructors = df['instructor_id'].nunique()
-                st.metric("Instructors", unique_instructors)
-            
-            with col4:
-                unique_courses = df['course_id'].nunique()
-                st.metric("Courses", unique_courses)
-            
-            # Charts
-            tab1, tab2, tab3, tab4 = st.tabs(["📅 By Day", "🏢 By Room", "👨‍🏫 By Instructor", "📚 By Course"])
-            
-            with tab1:
-                st.subheader("Sessions by Day")
-                day_counts = df['day'].value_counts()
-                fig = px.bar(x=day_counts.index, y=day_counts.values, 
-                           title="Sessions Distribution by Day")
-                fig.update_layout(xaxis_title="Day", yaxis_title="Number of Sessions")
-                st.plotly_chart(fig, width='stretch')
-            
-            with tab2:
-                st.subheader("Room Utilization")
-                room_counts = df['room_id'].value_counts().head(10)
-                fig = px.bar(x=room_counts.index, y=room_counts.values,
-                           title="Top 10 Most Used Rooms")
-                fig.update_layout(xaxis_title="Room ID", yaxis_title="Number of Sessions")
-                st.plotly_chart(fig, width='stretch')
-            
-            with tab3:
-                st.subheader("Instructor Workload")
-                instructor_counts = df['instructor_id'].value_counts()
-                fig = px.bar(x=instructor_counts.index, y=instructor_counts.values,
-                           title="Sessions per Instructor")
-                fig.update_layout(xaxis_title="Instructor ID", yaxis_title="Number of Sessions")
-                st.plotly_chart(fig, width='stretch')
-            
-            with tab4:
-                st.subheader("Course Distribution")
-                course_counts = df['course_id'].value_counts().head(10)
-                fig = px.pie(values=course_counts.values, names=course_counts.index,
-                           title="Top 10 Courses by Session Count")
-                st.plotly_chart(fig, width='stretch')
-            
-            # Detailed analysis
-            st.subheader("📊 Detailed Analysis")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.write("**Room Capacity Analysis**")
-                # This would require joining with room data
-                st.info("Room capacity analysis requires room data integration")
-            
-            with col2:
-                st.write("**Time Slot Distribution**")
-                time_counts = df['start_time'].value_counts()
-                fig = px.bar(x=time_counts.index, y=time_counts.values,
-                           title="Sessions by Time Slot")
-                fig.update_layout(xaxis_title="Start Time", yaxis_title="Number of Sessions")
-                st.plotly_chart(fig, width='stretch')
-                
-        except Exception as e:
-            st.error(f"Error loading analysis data: {str(e)}")
-    
-    def show_settings_page(self):
-        """Display the settings page"""
-        st.header("🔧 Settings")
-        
-        tab1, tab2, tab3 = st.tabs(["⚙️ Solver Settings", "📁 Data Settings", "🔒 System Settings"])
-        
-        with tab1:
-            st.subheader("CSP Solver Configuration")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.write("**Backtracking Parameters**")
-                max_iterations = st.number_input(
-                    "Default Max Iterations",
-                    min_value=1000,
-                    max_value=50000,
-                    value=5000,
-                    step=1000
-                )
-                
-                timeout_seconds = st.number_input(
-                    "Timeout (seconds)",
-                    min_value=30,
-                    max_value=3600,
-                    value=300,
-                    step=30
-                )
-            
-            with col2:
-                st.write("**Constraint Weights**")
-                hard_constraint_weight = st.slider(
-                    "Hard Constraint Weight",
-                    min_value=1.0,
-                    max_value=10.0,
-                    value=5.0,
-                    step=0.5
-                )
-                
-                soft_constraint_weight = st.slider(
-                    "Soft Constraint Weight",
-                    min_value=0.1,
-                    max_value=2.0,
-                    value=1.0,
-                    step=0.1
-                )
-        
-        with tab2:
-            st.subheader("Data Management Settings")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.write("**File Paths**")
-                data_directory = st.text_input(
-                    "Data Directory",
-                    value=".",
-                    help="Directory containing CSV files"
-                )
-                
-                database_path = st.text_input(
-                    "Database Path",
-                    value="timetable.db",
-                    help="SQLite database file path"
-                )
-            
-            with col2:
-                st.write("**Backup Settings**")
-                auto_backup = st.checkbox(
-                    "Auto Backup Before Generation",
-                    value=True
-                )
-                
-                backup_retention_days = st.number_input(
-                    "Backup Retention (days)",
-                    min_value=1,
-                    max_value=365,
-                    value=30
-                )
-        
-        with tab3:
-            st.subheader("System Information")
-            
-            st.write("**Version Information**")
-            st.code("""
-            CSIT Timetable Generator v1.0
-            Intelligent Systems Fall 2025/2026
-            CSP-based Automated Timetable Generation
-            """)
-            
-            st.write("**System Status**")
-            
-            # Check system status
-            try:
-                stats = self.processor.get_statistics()
-                st.success("✅ Database connected")
-                st.success(f"✅ {stats.get('sessions_count', 0)} sessions loaded")
-            except:
-                st.error("❌ Database not connected")
-            
-            # Clear data button
-            if st.button("🗑️ Clear All Data", type="secondary"):
-                if st.checkbox("I understand this will delete all data"):
-                    try:
-                        os.remove("timetable.db")
-                        st.success("All data cleared!")
-                        st.rerun()
-                    except:
-                        st.error("Error clearing data")
-
-
-def main():
-    """Main function to run the Streamlit app"""
-    ui = TimetableUI()
-    ui.run()
+        st.divider()
+        st.write("**File Locations:**")
+        st.write("- CSV: `output/generated_timetable.csv`")
+        st.write("- Database: `output/timetable.db`")
+        st.write("- Excel: `output/timetable.xlsx`")
 
 
 if __name__ == "__main__":

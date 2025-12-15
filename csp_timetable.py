@@ -1,9 +1,10 @@
 """
-Professional Automated Timetable Generation as a Constraint Satisfaction Problem (CSP)
+Automated Timetable Generation using Constraint Satisfaction Problem (CSP)
 Intelligent Systems Fall 2025/2026 - Project 1
 
-This module implements a professional CSP-based timetable generator for the CSIT department
-with comprehensive error handling, performance monitoring, and logging.
+This program generates timetables for the CSIT department by treating it as a CSP.
+It assigns each class session to a time slot, room, and instructor while satisfying
+all the scheduling constraints.
 """
 
 import csv
@@ -15,22 +16,6 @@ import random
 import copy
 from collections import defaultdict
 import json
-
-# Import professional modules
-try:
-    from logger import logger, log_csp_operation
-    from performance_monitor import monitor, csp_performance_timer
-    from error_handling import (
-        CSPSolvingError, DataValidationError, ValidationResult, 
-        DataValidator, error_handler
-    )
-    PROFESSIONAL_MODE = True
-except ImportError:
-    # Fallback for basic mode
-    PROFESSIONAL_MODE = False
-    logger = None
-    monitor = None
-    error_handler = None
 
 
 @dataclass
@@ -144,14 +129,9 @@ class TimetableCSP:
         self.constraint_violations: List[str] = []
         self.soft_constraint_violations: List[str] = []
         
-    def load_data_from_csv(self, data_dir: str = "."):
-        """Load all data from CSV files with professional error handling"""
-        operation = None
-        if PROFESSIONAL_MODE:
-            operation = monitor.start_operation("load_data_from_csv")
-            logger.info("Starting data loading from CSV files")
-        else:
-            print("Loading data from CSV files...")
+    def load_data_from_csv(self, data_dir: str = "data"):
+        """Load all data from CSV files"""
+        print("Loading data from CSV files...")
         
         try:
             # Load time slots
@@ -172,27 +152,13 @@ class TimetableCSP:
             # Load sessions (from Sections.csv - this contains the actual sessions to schedule)
             self._load_sessions(f"{data_dir}/Sections.csv")
             
-            success_message = f"Data loaded successfully: {len(self.time_slots)} time slots, {len(self.rooms)} rooms, {len(self.instructors)} instructors, {len(self.courses)} courses, {len(self.sections)} sections, {len(self.sessions)} sessions"
-            
-            if PROFESSIONAL_MODE:
-                logger.info(success_message)
-                monitor.end_operation(operation, success=True)
-            else:
-                print(success_message)
+            print(f"Loaded {len(self.time_slots)} time slots, {len(self.rooms)} rooms, "
+                  f"{len(self.instructors)} instructors, {len(self.courses)} courses, "
+                  f"{len(self.sections)} sections, {len(self.sessions)} sessions")
             
         except Exception as e:
-            error_msg = f"Error loading data from CSV files: {str(e)}"
-            if PROFESSIONAL_MODE:
-                logger.error(error_msg, exception=e)
-                monitor.end_operation(operation, success=False, error_message=str(e))
-                raise DataValidationError(error_msg)
-            else:
-                print(error_msg)
-                raise
-        
-        print(f"Loaded {len(self.time_slots)} time slots, {len(self.rooms)} rooms, "
-              f"{len(self.instructors)} instructors, {len(self.courses)} courses, "
-              f"{len(self.sections)} sections, {len(self.sessions)} sessions")
+            print(f"Error loading data from CSV files: {str(e)}")
+            raise
     
     def _load_time_slots(self, filename: str):
         """Load time slots from CSV"""
@@ -367,59 +333,30 @@ class TimetableCSP:
     
     def solve(self, max_iterations: int = 1000) -> bool:
         """
-        Solve the CSP using backtracking with constraint propagation
-        Professional implementation with performance monitoring
+        Solve the CSP using backtracking algorithm
         """
-        operation = None
-        if PROFESSIONAL_MODE:
-            operation = monitor.start_operation("csp_solve")
-            logger.info(f"Starting CSP solving with max_iterations={max_iterations}")
-        else:
-            print("Starting CSP solving...")
-        
+        print("Starting CSP solving...")
         start_time = datetime.now()
         
-        try:
-            # Initialize assignments
-            self.assignments = {}
-            self.constraint_violations = []
-            self.soft_constraint_violations = []
+        # Initialize assignments
+        self.assignments = {}
+        self.constraint_violations = []
+        self.soft_constraint_violations = []
+    
+        # Use backtracking to find a solution
+        success = self._backtrack(0, max_iterations)
         
-            # Use backtracking to find a solution
-            success = self._backtrack(0, max_iterations)
-            
-            end_time = datetime.now()
-            solving_time = (end_time - start_time).total_seconds()
-            
-            if success:
-                success_msg = f"Solution found in {solving_time:.2f} seconds! Hard violations: {len(self.constraint_violations)}, Soft violations: {len(self.soft_constraint_violations)}"
-                if PROFESSIONAL_MODE:
-                    logger.info(success_msg)
-                    monitor.end_operation(operation, success=True, 
-                                       iterations=max_iterations,
-                                       constraint_violations=len(self.constraint_violations))
-                else:
-                    print(success_msg)
-            else:
-                error_msg = f"No solution found after {solving_time:.2f} seconds. Hard violations: {len(self.constraint_violations)}"
-                if PROFESSIONAL_MODE:
-                    logger.warning(error_msg)
-                    monitor.end_operation(operation, success=False, 
-                                         iterations=max_iterations,
-                                         constraint_violations=len(self.constraint_violations))
-                    raise CSPSolvingError(error_msg, len(self.constraint_violations), max_iterations)
-                else:
-                    print(error_msg)
-            
-            return success
-            
-        except Exception as e:
-            if PROFESSIONAL_MODE:
-                logger.error("CSP solving failed", exception=e)
-                monitor.end_operation(operation, success=False, error_message=str(e))
-                raise CSPSolvingError(f"CSP solving failed: {str(e)}")
-            else:
-                raise
+        end_time = datetime.now()
+        solving_time = (end_time - start_time).total_seconds()
+        
+        if success:
+            print(f"Solution found in {solving_time:.2f} seconds!")
+            print(f"Hard violations: {len(self.constraint_violations)}, Soft violations: {len(self.soft_constraint_violations)}")
+        else:
+            print(f"No solution found after {solving_time:.2f} seconds.")
+            print(f"Hard violations: {len(self.constraint_violations)}")
+        
+        return success
     
     def _backtrack(self, variable_index: int, max_iterations: int) -> bool:
         """Recursive backtracking algorithm"""
@@ -565,7 +502,7 @@ class TimetableCSP:
         
         return summary
     
-    def export_timetable_to_csv(self, filename: str = "generated_timetable.csv"):
+    def export_timetable_to_csv(self, filename: str = "output/generated_timetable.csv"):
         """Export the generated timetable to CSV"""
         if not self.assignments:
             print("No timetable to export")
