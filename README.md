@@ -120,11 +120,6 @@ A comprehensive technical report covering:
 - System architecture and design
 - Performance analysis and metrics
 - Testing and validation
-- Discussion points for TA presentation
-
-**Generated Documentation:**
-- **[Full Project Report](https://github.com/ahmedmesbah0/Time-Table)** - Detailed 11-section technical documentation
-- **[Quick Reference Guide](https://github.com/ahmedmesbah0/Time-Table)** - Concise talking points for TA discussions
 
 ### Key Project Stats
 - **Problem Size:** 279 sessions across 4 academic levels
